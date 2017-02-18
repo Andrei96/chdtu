@@ -5,4 +5,3 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	MessageBox(0, "Ваше імя Микита?", "ПЗС1644 БлизнюкАО", MB_ICONQUESTION|MB_CANCELTRYCONTINUE);
 	return 0;
 }
-
