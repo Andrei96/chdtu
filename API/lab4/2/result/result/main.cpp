@@ -11,6 +11,8 @@ char szBmpImageName[] = "bmpImage";
 char szBmpImageName2[] = "bmpImage2";
 char szBmpImageName3[] = "bmpImage3";
 char szBmpImageName4[] = "bmpImage4";
+char szIconName[] = "ICON1";
+char szCursorName[] = "CURSOR1";
 
 HBITMAP hBitMap;
 HBITMAP hBitMap2;
@@ -42,9 +44,9 @@ hBitMap3 = LoadBitmap(hInstance, szBmpImageName4);
 
 w.lpfnWndProc=WndProc; //вказівник на функцію вікна
 
-w.hCursor=LoadCursor(NULL, IDC_ARROW); //завантаження курсору
+w.hCursor=LoadCursor(hInstance, szCursorName); //завантаження курсору
 
-w.hIcon=0; //іконки поки немає
+w.hIcon=LoadIcon(hInstance, szIconName); //іконки поки немає
 
 w.lpszMenuName=0; // меню поки не буде
 
@@ -153,8 +155,10 @@ GetObject(hBitMap2, sizeof(bm2), (LPSTR)&bm2);
 GetObject(hBitMap3, sizeof(bm3), (LPSTR)&bm3);
 BitBlt(hdc, 50, 50, bm.bmWidth, bm.bmHeight, hmdc, 0,0, SRCCOPY);
 BitBlt(hdc, 250, 50, bm2.bmWidth, bm2.bmHeight, hmdc2, 0,0, SRCCOPY);
-BitBlt(hdc, 450, 50, bm3.bmWidth, bm3.bmHeight, hmdc3, 0,0, SRCCOPY);
+BitBlt(hdc, 450, 50, bm3.bmWidth, bm3.bmHeight, hmdc3, 0,0, SRCINVERT);
 DeleteDC(hmdc);
+DeleteDC(hmdc2);
+DeleteDC(hmdc3);
 
 
 //вставка свого тексту:

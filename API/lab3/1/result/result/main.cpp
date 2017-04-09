@@ -31,7 +31,7 @@ w.hInstance=hInstance; //ідентифікатор поточного додатку
 w.lpfnWndProc=WndProc; //вказівник на функцію вікна
 
 //w.hCursor=LoadCursor(NULL, IDC_ARROW); завантаження курсору
-w.hCursor = LoadCursor(NULL, IDC_SIZEWE);
+w.hCursor = LoadCursor(NULL, IDC_NO);
 
 //w.hIcon=0; іконки поки немає
 w.hIcon = LoadIcon(hInstance, szIconName);

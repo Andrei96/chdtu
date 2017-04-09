@@ -8,6 +8,8 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 char szProgName[] = "Імя програми";
 char szBmpImageName[] = "bmpImage";
+char szIconName[] = "ICON1";
+char szCursorName[] = "CURSOR1";
 
 HBITMAP hBitMap;
 
@@ -34,9 +36,9 @@ hBitMap = LoadBitmap(hInstance, szBmpImageName);
 
 w.lpfnWndProc=WndProc; //вказівник на функцію вікна
 
-w.hCursor=LoadCursor(NULL, IDC_ARROW); //завантаження курсору
+w.hCursor = LoadCursor(hInstance, szCursorName); //завантаження курсору
 
-w.hIcon=0; //іконки поки немає
+w.hIcon=LoadIcon(hInstance, szIconName); //іконки поки немає
 
 w.lpszMenuName=0; // меню поки не буде
 
@@ -135,7 +137,8 @@ hdc=BeginPaint(hWnd, &ps);
 hmdc = CreateCompatibleDC(hdc);
 SelectObject(hmdc, hBitMap);
 GetObject(hBitMap, sizeof(bm), (LPSTR)&bm);
-BitBlt(hdc, 10, 10, bm.bmWidth, bm.bmHeight, hmdc, 0,0, SRCINVERT);
+//BitBlt(hdc, 10, 10, bm.bmWidth, bm.bmHeight, hmdc, 0,0, SRCINVERT);
+BitBlt(hdc, 10, 10, bm.bmWidth, bm.bmHeight, hmdc, 0,0, SRCCOPY);
 DeleteDC(hmdc);
 
 
