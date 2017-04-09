@@ -1,5 +1,12 @@
 #include <Windows.h>
 
+#define IDM_EXIT 1
+#define IDM_ADMIN 2
+#define IDM_GUEST 3
+#define IDM_LOGIN 4
+#define IDM_OPEN 5
+#define IDM_COPY 6
+
 //Створення прототипу функцї вікна, яка буде визначена нижче
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -14,6 +21,8 @@ char szBmpImageName4[] = "bmpImage4";
 char szBmpImageName5[] = "bmpImage4";
 char szIconName[] = "ICON1";
 char szCursorName[] = "CURSOR1";
+
+char szMenu[] = "MainMenu";
 
 HBITMAP hBitMap;
 
@@ -44,7 +53,8 @@ w.hCursor=LoadCursor(hInstance, szCursorName); //завантаження курсору
 
 w.hIcon=LoadIcon(hInstance, szIconName); //іконки поки немає
 
-w.lpszMenuName=0; // меню поки не буде
+w.lpszMenuName = szMenu;
+//w.lpszMenuName=0; // меню поки не буде
 
 w.hbrBackground=CreateSolidBrush(RGB(232,232,232)); //колір фону вікна
 
@@ -73,9 +83,9 @@ WS_OVERLAPPEDWINDOW, //Стиль вікна – таке, що перекривається
 
 10, // положення по у
 
-920, //ширина
+400, //ширина
 
-500, //висота
+200, //висота
 
 (HWND)NULL, //ідентифікатор батьківського вікна
 
@@ -121,11 +131,6 @@ HDC hdc; //створення контексту пристрою
 
 PAINTSTRUCT ps; //створення екземпляру структури графічного виведення
 
-HBRUSH hBrush, hHatch;
-HPEN hPen;
-LOGFONT lf;
-HFONT hFont;
-RECT r, r1;
 
 
 //Цикл обробки повідомлень
@@ -133,6 +138,41 @@ RECT r, r1;
 switch(messg)
 
 {
+// повідомлення вікна
+case WM_COMMAND: {
+	switch(LOWORD(wParam)) {
+	case IDM_EXIT: {
+			MessageBox(0,"Вибране меню \"Вихід\"", "Exit", MB_ICONINFORMATION|MB_OK);
+			//DestroyWindow(hWnd);
+			break;
+		}
+	case 2: {
+			MessageBox(0,"Вибране меню \"Admin\"", "Admin", MB_ICONINFORMATION|MB_OK);
+			break;
+		}
+	case 3: {
+			MessageBox(0,"Вибране меню \"User\"", "test", MB_ICONINFORMATION|MB_OK);
+			break;
+		}
+	case 4: {
+			MessageBox(0,"Вибране меню \"Login\"", "Login", MB_ICONINFORMATION|MB_OK);
+			break;
+		}
+	case 5: {
+			MessageBox(0,"Вибране меню \"Open\"", "Open", MB_ICONINFORMATION|MB_OK);
+			break;
+		}
+	case 6: {
+			MessageBox(0,"Вибране меню \"Copy\"", "Copy", MB_ICONINFORMATION|MB_OK);
+			break;
+		}
+	default: {
+		MessageBox(0,"Невідома команда", "Error", MB_ICONASTERISK|MB_OK);
+		break;
+		}
+	}
+}
+
 
 //повідомлення малювання
 
@@ -144,66 +184,6 @@ hdc=BeginPaint(hWnd, &ps);
 //hdc2=BeginPaint(hWnd, &ps);
 //hdc3=BeginPaint(hWnd, &ps);
 
-//графіка
-// 1 фігура
-lf.lfHeight = 20;
-lf.lfWeight = 100;
-lf.lfStrikeOut = 0;
-lf.lfUnderline = 0;
-lf.lfEscapement = 900;
-lf.lfCharSet = DEFAULT_CHARSET;
-hFont = CreateFontIndirect(&lf);
-SelectObject(hdc, hFont);
-
-SetTextColor(hdc, RGB(0,0,0));
-SetBkColor(hdc, RGB(232,232,232));
-
-TextOut(hdc,160,130,"Коло",5);
-
-hBrush = CreateSolidBrush(RGB(255,0,0));
-hPen = CreatePen(PS_SOLID,1,RGB(0,0,0));
-SelectObject(hdc, hBrush);
-SelectObject(hdc, hPen);
-
-Ellipse(hdc,50,50,150,150);
-// 2 фігура
-TextOut(hdc,170,300,"Прямокутник",strlen("Прямокутник"));
-
-hBrush = CreateSolidBrush(RGB(0,0,255));
-hPen = CreatePen(PS_SOLID,2,RGB(255,101,0));
-SelectObject(hdc, hPen);
-SelectObject(hdc, hBrush);
-
-r.left = 50;
-r.top = 170;
-r.right = 150;
-r.bottom = 350;
-
-r1.left = 50;
-r1.top = 170;
-r1.right = 150;
-r1.bottom = 350;
-
-SetBkColor(hdc, RGB(0,0,255));
-FillRect(hdc,&r,CreateHatchBrush(HS_BDIAGONAL, RGB(0,255,0)));
-FrameRect(hdc,&r1, CreateSolidBrush(RGB(255,101,0)));
-// 3 фігура 
-SetBkColor(hdc, RGB(232,232,232));
-TextOut(hdc,500,130,"Еліпс",strlen("Еліпс"));
-hBrush = CreateSolidBrush(RGB(255,255,0));
-hPen = CreatePen(PS_SOLID,2,RGB(255,0,0));
-SelectObject(hdc, hPen);
-SelectObject(hdc, hBrush);
-
-Ellipse(hdc,300,50,500,150);
-// 4 фігура 
-TextOut(hdc,410,300,"Прямокутник 2",strlen("Прямокутник 2"));
-
-r.left = 300;
-r.top = 170;
-r.right = 400;
-r.bottom = 350;
-FillRect(hdc,&r, CreateSolidBrush(RGB(150,0,150)));
 
 //оновлюємо вікно
 
