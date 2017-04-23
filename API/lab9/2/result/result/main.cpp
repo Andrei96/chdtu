@@ -91,9 +91,9 @@ WS_OVERLAPPEDWINDOW, //Стиль вікна – таке, що перекривається
 
 10, // положення по у
 
-600, //ширина
+900, //ширина
 
-400, //висота
+600, //висота
 
 (HWND)NULL, //ідентифікатор батьківського вікна
 
@@ -138,31 +138,46 @@ WPARAM wParam, LPARAM lParam)
 {
 
 HDC hdc, hmdc; //створення контексту пристрою
-
+LOGFONT lf;
+HFONT hFont;
 PAINTSTRUCT ps; //створення екземпляру структури графічного виведення
 HPEN hPen;
-HBRUSH HBRUSH;
+HBRUSH hBrush;
 BITMAP bm;
 
+int x,y;
 
+int x1=180;
+int y1=250; 
+int x2=320; 
+int y2=300;
 
 //Цикл обробки повідомлень
 
+
+
+
 switch(messg)
 {
-	int x,y;
+	
 // повідомлення миші
 case WM_RBUTTONDOWN:
 case WM_LBUTTONDOWN: {
 	hdc = GetDC(hWnd);
 	x = LOWORD(lParam);
 	y = HIWORD(lParam);
-	hmdc=CreateCompatibleDC(hdc);
-	SelectObject(hmdc, hBitMap);
-	GetObject(hBitMap, sizeof(bm), (LPSTR)&bm);
-	BitBlt(hdc, x,y, bm.bmWidth, bm.bmHeight, hmdc, 0,0,SRCCOPY);
-	DeleteDC(hmdc); 
 
+	if((x>x1)&&(x<x2)&&(y>y1)&&(y<y2))
+	{
+		MessageBox(hWnd, "Кнопка", "Button", MB_OK|MB_ICONINFORMATION);
+	}
+	else if((x > 600) && (y > 50) && (x < 800) && (y < 450)) {
+		MessageBox(hWnd, "Фото", "Foto", MB_OK|MB_ICONINFORMATION);
+	}
+	else {
+		MessageBox(hWnd, "Поле", "Form", MB_OK|MB_ICONINFORMATION);
+	}
+	
 	break;
 }
 
@@ -200,20 +215,6 @@ case WM_COMMAND: {
 		}
 	}
 }
-// Дія з клавішами
-unsigned int key;
-
-case WM_KEYDOWN: {
-	key = wParam;
-	_itoa(key,szText,10);
-	hdc = GetDC(hWnd);
-	ShowWindow(hWnd, SW_HIDE);
-	ShowWindow(hWnd, SW_SHOW);
-	TextOut(hdc,10,10,szText,strlen(szText));
-	//TextOut(hdc,10,10,"",strlen(""));
-	
-	break;
-}
 
 //повідомлення малювання
 
@@ -222,15 +223,40 @@ case WM_PAINT :
 //початок малювання
 
 hdc=BeginPaint(hWnd, &ps);
-//hdc2=BeginPaint(hWnd, &ps);
-//hdc3=BeginPaint(hWnd, &ps);
 
-//рамка для рядкового меню
-/*TextOut(hdc, 50,5, "Текстовий редактор | Enter-новий рядок, Backspace - видалення", strlen("Текстовий редактор | Enter-новий рядок, Backspace - видалення"));
+//рамка для кнопки
+hBrush = CreateSolidBrush(RGB(0,255,253));
+SelectObject(hdc,hBrush);
+RoundRect(hdc,x1,y1,x2,y2,20,20);
 
+//текст для кнопки
 
-Rectangle(hdc, 10,20,570,320);
-TextOut(hdc, 20,30, "_", 1);*/
+// параметри шрифта
+lf.lfCharSet=DEFAULT_CHARSET;
+lf.lfPitchAndFamily=DEFAULT_PITCH;
+strcpy(lf.lfFaceName,"Compact");  
+lf.lfHeight=20; 
+lf.lfWidth=10; 
+lf.lfWeight=FW_BOLD; 
+lf.lfEscapement=0;
+lf.lfStrikeOut=0; 
+lf.lfUnderline=0; 
+
+hFont=CreateFontIndirect(&lf); 
+SelectObject(hdc, hFont); 
+SetTextColor(hdc, RGB(255,0,0)); //колір тексту
+
+SetBkMode(hdc, TRANSPARENT); //текст буде прозорий
+TextOut(hdc, 225, 263,"Click", 5); //текст кнопки
+// картинка
+	
+	hmdc=CreateCompatibleDC(hdc);
+	SelectObject(hmdc, hBitMap);
+	GetObject(hBitMap, sizeof(bm), (LPSTR)&bm);
+	BitBlt(hdc, 600,50, bm.bmWidth, bm.bmHeight, hmdc, 0,0,SRCCOPY);
+	DeleteDC(hmdc); 
+	
+
 
 
 //оновлюємо вікно
