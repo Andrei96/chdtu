@@ -45,8 +45,8 @@ w.hCursor=LoadCursor(hInstance, szCursorName); //завантаження курсору
 w.hIcon=LoadIcon(hInstance, szIconName); //іконки поки немає
 
 w.lpszMenuName=0; // меню поки не буде
-
-w.hbrBackground=CreateSolidBrush(RGB(232,232,232)); //колір фону вікна
+//w.hbrBackground=(HBRUSH)GetStockObject(WHITE_BRUSH); 
+w.hbrBackground=CreateSolidBrush(RGB(255,255,255)); //колір фону вікна
 
 w.style=CS_HREDRAW|CS_VREDRAW; //стиль - перемалювання по х і по у
 
@@ -121,7 +121,7 @@ HDC hdc; //створення контексту пристрою
 
 PAINTSTRUCT ps; //створення екземпляру структури графічного виведення
 
-HBRUSH hBrush, hHatch;
+HBRUSH hBrush, hHatch, hBrush1;
 HPEN hPen;
 LOGFONT lf;
 HFONT hFont;
@@ -143,11 +143,11 @@ case WM_PAINT :
 hdc=BeginPaint(hWnd, &ps);
 //hdc2=BeginPaint(hWnd, &ps);
 //hdc3=BeginPaint(hWnd, &ps);
-
+SetBkMode(hdc,TRANSPARENT);
 //графіка
 // 1 фігура
 lf.lfHeight = 20;
-lf.lfWeight = 100;
+lf.lfWeight = 50;
 lf.lfStrikeOut = 0;
 lf.lfUnderline = 0;
 lf.lfEscapement = 900;
@@ -156,25 +156,32 @@ hFont = CreateFontIndirect(&lf);
 SelectObject(hdc, hFont);
 
 SetTextColor(hdc, RGB(0,0,0));
-SetBkColor(hdc, RGB(232,232,232));
+//SetBkColor(hdc, RGB(232,232,232));
 
-TextOut(hdc,160,130,"Коло",5);
+
 
 hBrush = CreateSolidBrush(RGB(255,0,0));
-hPen = CreatePen(PS_SOLID,1,RGB(0,0,0));
+hPen = CreatePen(PS_DASHDOT,1,RGB(0,0,0));
 SelectObject(hdc, hBrush);
 SelectObject(hdc, hPen);
 
 Ellipse(hdc,50,50,150,150);
+//SetBkColor(hdc,RGB(255,0,0));
+TextOut(hdc,90,130,"Коло",5);
 // 2 фігура
-TextOut(hdc,170,300,"Прямокутник",strlen("Прямокутник"));
 
 hBrush = CreateSolidBrush(RGB(0,0,255));
-hPen = CreatePen(PS_SOLID,2,RGB(255,101,0));
+hBrush1 = CreateHatchBrush(HS_BDIAGONAL, RGB(255,255,0));
+hPen = CreatePen(PS_SOLID,1,RGB(255,101,0));
 SelectObject(hdc, hPen);
 SelectObject(hdc, hBrush);
 
-r.left = 50;
+
+Rectangle(hdc,50,170,150,350);
+SelectObject(hdc, hBrush1);
+Rectangle(hdc,50,170,150,350);
+
+/*r.left = 50;
 r.top = 170;
 r.right = 150;
 r.bottom = 350;
@@ -182,29 +189,37 @@ r.bottom = 350;
 r1.left = 50;
 r1.top = 170;
 r1.right = 150;
-r1.bottom = 350;
+r1.bottom = 350;*/
+//
 
-SetBkColor(hdc, RGB(0,0,255));
-FillRect(hdc,&r,CreateHatchBrush(HS_BDIAGONAL, RGB(0,255,0)));
-FrameRect(hdc,&r1, CreateSolidBrush(RGB(255,101,0)));
+
+//SetBkColor(hdc, RGB(0,0,255));
+
+TextOut(hdc,90,300,"Прямокутник",strlen("Прямокутник"));
+
+//SetBkColor(hdc, RGB(0,0,255));
+//FillRect(hdc,&r,CreateHatchBrush(HS_BDIAGONAL, RGB(0,255,0)));
+//FrameRect(hdc,&r1, CreateSolidBrush(RGB(255,101,0)));
+
 // 3 фігура 
-SetBkColor(hdc, RGB(232,232,232));
-TextOut(hdc,500,130,"Еліпс",strlen("Еліпс"));
+//SetBkColor(hdc, RGB(232,232,232));
+
 hBrush = CreateSolidBrush(RGB(255,255,0));
-hPen = CreatePen(PS_SOLID,2,RGB(255,0,0));
+hPen = CreatePen(PS_SOLID,10,RGB(255,0,0));
 SelectObject(hdc, hPen);
 SelectObject(hdc, hBrush);
 
 Ellipse(hdc,300,50,500,150);
+TextOut(hdc,420,130,"Еліпс",strlen("Еліпс"));
 // 4 фігура 
-TextOut(hdc,410,300,"Прямокутник 2",strlen("Прямокутник 2"));
+
 
 r.left = 300;
 r.top = 170;
 r.right = 400;
 r.bottom = 350;
 FillRect(hdc,&r, CreateSolidBrush(RGB(150,0,150)));
-
+TextOut(hdc,350,300,"Прямокутник 2",strlen("Прямокутник 2"));
 //оновлюємо вікно
 
 ValidateRect(hWnd, NULL);

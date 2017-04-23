@@ -6,6 +6,8 @@
 #define IDM_LOGIN 4
 #define IDM_OPEN 5
 #define IDM_COPY 6
+#define IDM_MENU1 7
+#define IDM_MENU2 8
 
 //Створення прототипу функцї вікна, яка буде визначена нижче
 
@@ -143,7 +145,7 @@ case WM_COMMAND: {
 	switch(LOWORD(wParam)) {
 	case IDM_EXIT: {
 			MessageBox(0,"Вибране меню \"Вихід\"", "Exit", MB_ICONINFORMATION|MB_OK);
-			//DestroyWindow(hWnd);
+			DestroyWindow(hWnd);
 			break;
 		}
 	case 2: {
@@ -164,6 +166,14 @@ case WM_COMMAND: {
 		}
 	case 6: {
 			MessageBox(0,"Вибране меню \"Copy\"", "Copy", MB_ICONINFORMATION|MB_OK);
+			break;
+		}
+	case 7: {
+			MessageBox(0,"Вибране меню \"menu1\"", "menu1", MB_ICONINFORMATION|MB_OK);
+			break;
+		}
+	case 8: {
+			MessageBox(0,"Вибране меню \"menu2\"", "menu2", MB_ICONINFORMATION|MB_OK);
 			break;
 		}
 	default: {

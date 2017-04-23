@@ -37,7 +37,7 @@ lpszCmdLine, int nCmdShow)
 
 {
 
-HWND hWnd;
+HWND hWnd, hWnd1;
 
 MSG lpMsg;
 
@@ -99,6 +99,8 @@ WS_OVERLAPPEDWINDOW, //Стиль вікна – таке, що перекривається
 (HINSTANCE)hInstance, // ідентифікатор екземпляру програми
 
 (HINSTANCE)NULL); //відсутність додаткових параметрів
+
+//hWnd1 = CreateWindow(szProgName, "Близнюк А. О.", WS_CHILDWINDOW, 10, 10, 600,400, hWnd, (HMENU)IDM_GUEST, (HINSTANCE)hInstance,(HINSTANCE)NULL);
 
 //Виводимо вікно з памяті на екран
 
