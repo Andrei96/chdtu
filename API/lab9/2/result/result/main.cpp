@@ -161,7 +161,10 @@ switch(messg)
 {
 	
 // повідомлення миші
-case WM_RBUTTONDOWN:
+case WM_RBUTTONDOWN: {
+					 MessageBox(hWnd, "Edit", "Edit", MB_OK|MB_ICONINFORMATION);
+					 break;
+}
 case WM_LBUTTONDOWN: {
 	hdc = GetDC(hWnd);
 	x = LOWORD(lParam);
