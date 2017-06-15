@@ -19,7 +19,7 @@ void DFS(int v, int from){
     mark[v] = 1;
     prior[v] = from;
     if(v == finish){
-        cout<<"Шлях знайдено!\n"; return;
+        cout<<"Done!\n"; return;
     }
     for(int i=1;i<n;i++)
         if(Graph[v][i]!=0) DFS(i,v);
@@ -30,7 +30,7 @@ void getPath(){
     int i=0;
     for(int v = finish; v!=start; v=prior[v]){
             if(v == 0){
-                cout<<"Шляху не знайдено!\n"; return;
+                cout<<"Not done!\n"; return;
             }
             path[i] = v;
             i++;
@@ -47,8 +47,7 @@ int main()
 {
 setlocale(LC_ALL, "Russian");
     while(1) {
-        cout<<"1. Matrix symignosti\n2. Obrobka\n";
-       cout<<"\nVubor: ";
+        cout<<"\n1. Matrix symignosti\n2. Obrobka\n";
         int key; cin>>key; cout<<endl;
         switch(key){
             case 1:
